@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://unpkg.com/papaparse@latest/papaparse.min.js"></script>
+    <title>Plotly charts</title>
+</head>
+<body>
+    <div>
+        <h2>Line plot (for only one variable)</h2>
+        <input type="file" name="uploadfile-line-onevar" id="uploadfile-line-onevar" accept=".csv">
+        <div id="tester"></div>
+    </div>
+    <div id="div-plot">
+        <h2>Line plot (for two variables)</h2>
+        <input type="file" name="uploadfile-line-twovar" id="uploadfile-line-twovar" accept=".csv">
+        <button id="uploadconfirm-line-twovar">Upload file</button>
+        <div id="plot"></div>
+    </div>
+</body>
+<script>
+    // One variable line 
+    var layout = {
+        title: 'Create a Static Chart',
+        showlegend: false
+    };
+	Plotly.newPlot(
+        document.getElementById('tester'), 
+        [
+            {
+                x: [1, 2, 3, 4, 5],
+                y: [1, 2, 4, 8, 16] 
+            }
+        ], 
+        layout, 
+        {staticPlot: true}
+    );
+
+    // Two variables line 
+    const uploadconfirm = document.getElementById("uploadconfirm-line-twovar")
+        .addEventListener('click', () => {
+            Papa.parse(document.getElementById("uploadfile-line-twovar").files[0], 
+            {
+                download: true, 
+                header: true, 
+                skipEmptyLines: true, 
+                complete: function(results) {
+                    console.log(results); 
+                }
+            })
+        }); 
+</script>
+</html>
